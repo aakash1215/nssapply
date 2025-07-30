@@ -222,6 +222,17 @@
                                 </div>
                             </div>
                         </fieldset>
+
+                        <fieldset class="border-t-2 border-blue-800 pt-4">
+                            <legend class="text-xl font-bold text-blue-900 px-2">Payment Details</legend>
+                            <div class="grid grid-cols-1 gap-6 mt-4">
+                                <div>
+                                    <label for="Transaction ID" class="block text-gray-700 text-sm font-bold mb-2">Transaction ID</label>
+                                    <input type="text" id="Transaction ID" name="Transaction ID" class="shadow-sm appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-800" required>
+                                </div>
+                            </div>
+                        </fieldset>
+
                     </div>
 
                     <div id="form-error" class="hidden text-red-600 bg-red-100 border border-red-600 rounded-md p-3 text-center mt-6 font-semibold"></div>
@@ -252,7 +263,7 @@
                 <svg class="w-16 h-16 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
             </div>
             <h1 class="text-2xl font-bold text-gray-800 mb-2">Registration Successful!</h1>
-            <p class="text-gray-600">Your details have been successfully submitted to the NSS database.</p>
+            <p class="text-gray-600" id="personalized-welcome">Your details have been successfully submitted to the NSS database.</p>
             <button id="register-another-success" class="mt-8 bg-blue-800 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg focus:outline-none focus:ring-4 focus:ring-red-300 transition-colors duration-300">
                 Register Another Volunteer
             </button>
@@ -271,7 +282,7 @@
             </button>
         </div>
     </div>
-
+    
     <div id="blood-group-modal" class="modal-overlay hidden">
         <div class="modal-content">
             <h3 id="modal-title" class="text-xl font-bold text-blue-900 mb-4">Blood Group Information</h3>
@@ -290,11 +301,12 @@
     </div>
 
     <script>
-        // *** IMPORTANT: Update this URL to your Node.js backend endpoint ***
-        const BACKEND_API_URL = 'http://localhost:3000/register'; // For local testing
-        // When deployed: const BACKEND_API_URL = 'https://your-deployed-backend-url.com/register';
+        // --- Backend API URL ---
+        // IMPORTANT: Update this URL to your Railway deployed Flask backend endpoint!
+        // Example: const BACKEND_API_URL = 'https://your-railway-url.railway.app/register';
+        const BACKEND_API_URL = 'http://localhost:8080/register'; // For local development/testing
 
-        // Element Selections
+        // --- Element Selections ---
         const form = document.getElementById('registration-form');
         const formSection = document.getElementById('registration-form-section');
         const successSection = document.getElementById('success-message-section');
@@ -310,12 +322,13 @@
         const modalCloseBtn = document.getElementById('modal-close');
         const modalTitle = document.getElementById('modal-title');
         const modalBody = document.getElementById('modal-body');
+        const personalizedWelcomeEl = document.getElementById('personalized-welcome'); // Keeping this for the default success message
         const photoInput = document.getElementById('Photo');
         const photoPreview = document.getElementById('photo-preview');
         const signInput = document.getElementById('Sign');
         const signPreview = document.getElementById('sign-preview');
 
-        // Image Preview Logic
+        // --- Image Preview Logic ---
         function setupImagePreview(inputElement, previewElement) {
             inputElement.addEventListener('change', function() {
                 const file = this.files[0];
@@ -333,7 +346,7 @@
             });
         }
 
-        // Navigation Functions
+        // --- Navigation Functions ---
         const showSection = (sectionToShow) => {
             formSection.classList.add('hidden');
             successSection.classList.add('hidden');
@@ -345,19 +358,18 @@
 
         document.getElementById('register-another-success').addEventListener('click', () => {
             form.reset();
-            photoPreview.classList.add('hidden');
+            photoPreview.classList.add('hidden'); // Clear image previews
             signPreview.classList.add('hidden');
             showSection(formSection);
         });
-
         document.getElementById('return-to-form-error').addEventListener('click', () => {
-            form.reset();
+            form.reset(); // Clear form on return from error
             photoPreview.classList.add('hidden');
             signPreview.classList.add('hidden');
             showSection(formSection);
         });
 
-        // Form Logic
+        // --- Form Logic ---
         sameAddressCheckbox.addEventListener('change', (e) => {
             const permanentAddress = document.getElementById('Permanent Address').value;
             const correspondenceAddress = document.getElementById('Correspondence Address');
@@ -368,14 +380,13 @@
             }
         });
 
-        // Form Submission
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             setLoading(true);
             formErrorEl.classList.add('hidden');
             formErrorEl.textContent = '';
 
-            // Basic validation
+            // Basic client-side validation
             const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
             for (const input of inputs) {
                 if (!input.value.trim()) {
@@ -384,67 +395,90 @@
                     setLoading(false);
                     return;
                 }
-                input.classList.remove('input-error');
+                input.classList.remove('input-error'); // Clear previous error
             }
 
-            // Validate specific formats
             const mobileNumber = document.getElementById('Mobile Number').value;
             const email = document.getElementById('Email').value;
-            
+
             if (!/^\d{10}$/.test(mobileNumber)) {
                 showError('Please enter a valid 10-digit mobile number.');
                 document.getElementById('Mobile Number').classList.add('input-error');
-                setLoading(false);
-                return;
+                setLoading(false); return;
             }
-
             if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
                 showError('Please enter a valid email address.');
                 document.getElementById('Email').classList.add('input-error');
-                setLoading(false);
-                return;
+                setLoading(false); return;
             }
 
-            // Prepare form data
-            const formData = new FormData(form);
-            const data = Object.fromEntries(formData.entries());
+            // --- Collect data in the specified order for the backend ---
+            // Note: 'Time' will be generated by the backend
+            const dataToSend = {
+                "Name": document.getElementById("Name").value,
+                "Gender": document.getElementById("Gender").value,
+                "Father's Name": document.getElementById("Father's Name").value,
+                "Date of Birth": document.getElementById("Date of Birth").value,
+                "Category": document.getElementById("Category").value,
+                "Course": document.getElementById("Course").value,
+                "Year of Admission": document.getElementById("Year of Admission").value,
+                "Department": document.getElementById("Department").value,
+                "Semester": document.getElementById("Semester").value,
+                "Enrollment Number": document.getElementById("Enrollment Number").value,
+                "Background": document.getElementById("Background").value,
+                "Permanent Address": document.getElementById("Permanent Address").value,
+                "Correspondence Address": document.getElementById("Correspondence Address").value,
+                "Blood Group": document.getElementById("Blood Group").value, // Changed order for HTML data collection
+                "Email": document.getElementById("Email").value,
+                "Mobile Number": document.getElementById("Mobile Number").value,
+                // These will be filenames for now, or URLs if you re-add ImgBB upload
+                "Photo": photoInput.files[0] ? photoInput.files[0].name : 'No Photo Uploaded',
+                "Sign": signInput.files[0] ? signInput.files[0].name : 'No Signature Uploaded',
+                "Transaction ID": document.getElementById("Transaction ID").value // New field
+            };
 
-            // Add filename for Photo and Sign to the data sent to backend
-            // NOTE: This only sends the filename. If you need to upload the actual files,
-            // your backend needs to be set up to handle `multipart/form-data` and store them
-            // in cloud storage (e.g., Google Drive, Cloud Storage) and then save the file's URL in the sheet.
-            data.Photo = photoInput.files[0] ? photoInput.files[0].name : 'Not uploaded';
-            data.Sign = signInput.files[0] ? signInput.files[0].name : 'Not uploaded';
+            // If you re-integrate ImgBB, this is where you'd call uploadImageToImgBB
+            // and replace the 'Photo' and 'Sign' values in 'dataToSend' with the returned URLs.
+            // For now, it sends filenames as per the current HTML's script.
 
             try {
-                // Send data to your Node.js backend
+                showError("Submitting form data...", false);
                 const response = await fetch(BACKEND_API_URL, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json', // We're sending JSON data to the backend
+                        'Content-Type': 'application/json', // Send as JSON
                     },
-                    body: JSON.stringify(data), // Convert form data object to JSON string
+                    body: JSON.stringify(dataToSend), // Send the constructed data object
+                    mode: 'cors', // Add CORS mode to the request
                 });
 
-                const result = await response.json(); // Parse the JSON response from your backend
+                const result = await response.json();
 
-                if (response.ok && result.success) { // Check if HTTP status is OK (200-299) AND backend sent success: true
+                if (response.ok && result.success === true) {
+                    console.log('Backend API call successful:', result);
                     showSection(successSection);
+                    // The success message will display the default text in your HTML
+                    // If you want personalized, you need to re-add the Gemini logic
                 } else {
-                    // Display error message from backend or a generic one
-                    showError(result.message || 'Submission failed. Please check your details and try again.', true);
+                    console.error('Backend API call failed:', result);
+                    showError(result.message || 'Submission failed. Please try again.', true);
                 }
-            } catch (error) {
-                console.error('Submission failed:', error);
-                // Catch network errors or issues with the fetch request itself
-                showError('Network error or server is unavailable. Please try again later.', true);
+            } catch (err) {
+                console.error('Submission failed:', err);
+                if (err instanceof TypeError && err.message === 'Failed to fetch') {
+                    showError('Network error: Could not reach the server. Please check your internet connection or try again later.', true);
+                } else if (err instanceof SyntaxError && err.message.includes('JSON')) {
+                    showError('Server returned invalid response. Please contact support.', true);
+                }
+                else {
+                    showError(`Submission failed: ${err.message || 'Unknown error'}. Please try again.`, true);
+                }
             } finally {
                 setLoading(false);
-                // No need for gapi.auth2.getAuthInstance().signOut() as frontend no longer authenticates directly
             }
         });
 
-        // Blood Group Info Helper (unchanged, as it's purely client-side simulation)
+        // --- Blood Group Info Helper (Simulated) ---
         bloodGroupHelperBtn.addEventListener('click', async () => {
             const bloodGroup = document.getElementById('Blood Group').value;
             if (!bloodGroup) {
@@ -457,7 +491,7 @@
             modalTitle.textContent = `About Blood Group: ${bloodGroup}`;
             modalBody.innerHTML = `<div class="flex justify-center items-center h-24"><div class="spinner"></div><p class="ml-3">Loading info...</p></div>`;
 
-            // Simulate API call with timeout
+            // This is a client-side simulation. If you want actual AI, you need to re-add Gemini logic here.
             setTimeout(() => {
                 const bloodInfo = {
                     'A+': 'Can donate to: A+ and AB+. Can receive from: A+ and A-, O+ and O-.',
@@ -481,7 +515,7 @@
             }
         });
 
-        // UI Helper Functions
+        // --- UI Helper Functions ---
         function setLoading(isLoading) {
             submitButton.disabled = isLoading;
             submitButton.classList.toggle('opacity-60', isLoading);
@@ -500,10 +534,9 @@
             }
         }
 
-        // Initialize
+        // --- Initialize ---
         setupImagePreview(photoInput, photoPreview);
         setupImagePreview(signInput, signPreview);
-        // Removed: window.handleClientLoad and corresponding script tag
     </script>
-    </body>
+</body>
 </html>
