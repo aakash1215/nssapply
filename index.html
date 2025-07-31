@@ -108,10 +108,72 @@
             border: 1px solid #d1d5db;
             margin-top: 0.5rem;
         }
+
+        /* Styles for the slideshow */
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 2rem; /* Adds some space between slideshow and form */
+            border-radius: 0.5rem; /* Matches form's border-radius */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds subtle shadow */
+        }
+
+        .mySlides {
+            display: none;
+            width: 100%;
+            -webkit-animation-name: fade;
+            -webkit-animation-duration: 1.5s;
+            animation-name: fade;
+            animation-duration: 1.5s;
+        }
+
+        .mySlides img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover; /* Ensures images cover the area without distortion */
+            max-height: 400px; /* Limit height for better presentation */
+        }
+
+        @-webkit-keyframes fade {
+            from {opacity: .4}
+            to {opacity: 1}
+        }
+
+        @keyframes fade {
+            from {opacity: .4}
+            to {opacity: 1}
+        }
     </style>
 </head>
 
 <body class="bg-gray-100">
+
+    <div class="slideshow-container">
+        <div class="mySlides fade">
+            <img src="https://scontent.fnag4-3.fna.fbcdn.net/v/t39.30808-6/515496353_122168566706553614_9087162552936589332_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=833d8c&_nc_ohc=EIevJr_s8KMQ7kNvwGNfTTA&_nc_oc=Adk8Ygrd86DomLhoT9ZLRr3v2WE3upVCTk7c_xxD5igvmLPzrXsodxw2N9Y7MKBDz_LaHAiS9YiHg9fK8W6NCGvT&_nc_zt=23&_nc_ht=scontent.fnag4-3.fna&_nc_gid=X9BjLqBc7agsDSWPZbgbKg&oh=00_AfSOwaGUH9LAAfihp1BW7eDFmjTMJTtJqphjU9f8Aoj-gQ&oe=68916F70" alt="NSS Event 1">
+        </div>
+
+        <div class="mySlides fade">
+            <img src="https://scontent.fnag4-4.fna.fbcdn.net/v/t39.30808-6/515944480_122168562686553614_3824154011987191934_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=833d8c&_nc_ohc=T82ZwGBhKuIQ7kNvwFTL2sw&_nc_oc=Adn4fo9uE9c3_X7p2JzfLjmVY4z73WVX8_rxHJ2PHjW-2eByYnJCvhPDbcVV1ToCGg-ep2TU8eQ_aPx76aofSibL&_nc_zt=23&_nc_ht=scontent.fnag4-4.fna&_nc_gid=4zI8olPyc6oMlKoR0QepXQ&oh=00_AfRy0zpWu1h-QrX8c5hYrRnqmmIP_j5VwApKIPs8wr5G6A&oe=68916A3B" alt="NSS Event 2">
+        </div>
+
+        <div class="mySlides fade">
+            <img src="https://scontent.fnag4-5.fna.fbcdn.net/v/t39.30808-6/515499621_122168251568553614_193769768514395661_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_ohc=gvUL9HK9lhgQ7kNvwGThTkO&_nc_oc=AdlkiuZnugrIz6Sgw1C91Gl19pSZ_vLI4K-c_RQK-_IfUqTO82fTbLIF7mGrFW7Gj6l12A2gjTjgzMgCQ5VlshhF&_nc_zt=23&_nc_ht=scontent.fnag4-5.fna&_nc_gid=ZW3JpXcFUmFGmRrcqR8NTQ&oh=00_AfTFoHlWE_G8UXZAhISpZQs0SZmF7tlh6VKMeRb_x0kJ-g&oe=68917A42" alt="NSS Event 3">
+        </div>
+
+        <div class="mySlides fade">
+            <img src="https://scontent.fnag4-1.fna.fbcdn.net/v/t39.30808-6/480808098_122142944384553614_3201252944693410819_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_ohc=6yEqZoo5c5gQ7kNvwHUNIZc&_nc_oc=Adm32z0SZuXMn735BIG6rQRtbJCHWdYHbLi88-jJ2gnrzrfuepWYVeKxnPK3Ac4Q7JRtPC6dP8Y7jxYTD1FQVkcc&_nc_zt=23&_nc_ht=scontent.fnag4-1.fna&_nc_gid=nviC58DD3buIsx3jF9P-xw&oh=00_AfQzAsyXMupDfm9v-uXIbZpVY00SY9ZMLKYqkRbkR0v_ww&oe=68914E47" alt="NSS Event 4">
+        </div>
+
+        <div class="mySlides fade">
+            <img src="https://scontent.fnag4-5.fna.fbcdn.net/v/t39.30808-6/471279303_122128786856553614_5695814522126432874_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_ohc=pPOmDNQmlhMQ7kNvwECbiKb&_nc_oc=AdlCNp_CRSUNfI2C4iCkYpPniA6Ph-rbZbaFlBblF1K9FDw3CqV_l1-K7x8U9clrsyQEpiiT7jkNOJ3pMbXWFM87&_nc_zt=23&_nc_ht=scontent.fnag4-5.fna&_nc_gid=TG_ehPq13-fdix4liD6tYA&oh=00_AfTU-ZIqEfu7onUmtZo58ia1MX_-c4sFl92GU4C3Xy0Mzw&oe=68914E93" alt="NSS Event 5">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://scontent.fnag4-3.fna.fbcdn.net/v/t39.30808-6/471354088_122128787030553614_3566158313514475419_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=833d8c&_nc_ohc=VvDCAMoonF0Q7kNvwFP5vQR&_nc_oc=AdnoYq5TlhGqjZcnTKhAT2gKNqdfPj8HL0iR_X_8YtawpT7xHaLKeTwF1Zkj3c0zjsh6LIulYOup9RN0NRgGx4Bc&_nc_zt=23&_nc_ht=scontent.fnag4-3.fna&_nc_gid=WLhGa7J0d-FnNXCzstzRpw&oh=00_AfQtDu1N_5MvKYdyg4JJxR6kaD-6AbGNu8seSdJfYrzxCw&oe=68916955" alt="NSS Event 5">
+        </div>
+    </div>
 
     <div id="registration-form-section" class="min-h-screen flex items-center justify-center p-4 fade-in">
         <div class="container mx-auto max-w-4xl">
@@ -248,7 +310,7 @@
                                         <option value="8">8</option>
                                     </select>
                                 </div>
-                        
+
                                 <div>
                                     <label for="Background"
                                         class="block text-gray-700 text-sm font-bold mb-2">Background</label>
@@ -458,21 +520,21 @@
       If you encounter any issues<br>please contact: 9545441133
     </p>
     <div class="flex justify-center space-x-8 mb-2">
-      <a href="https://www.linkedin.com/in/akashchaudhari007/" 
-         target="_blank" 
-         rel="noopener noreferrer" 
-         aria-label="Akash's LinkedIn"
-         class="transition-all transform hover:scale-110 hover:shadow-lg focus:ring-2 focus:ring-blue-500 rounded">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/480px-LinkedIn_logo_initials.png" 
-             alt="LinkedIn" class="h-9 w-9 rounded shadow border border-gray-200">
+      <a href="https://www.linkedin.com/in/akashchaudhari007/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Akash's LinkedIn"
+          class="transition-all transform hover:scale-110 hover:shadow-lg focus:ring-2 focus:ring-blue-500 rounded">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/480px-LinkedIn_logo_initials.png"
+              alt="LinkedIn" class="h-9 w-9 rounded shadow border border-gray-200">
       </a>
-      <a href="https://github.com/Akash-Chaudhari" 
-         target="_blank" 
-         rel="noopener noreferrer"
-         aria-label="Akash's GitHub"
-         class="transition-all transform hover:scale-110 hover:shadow-lg focus:ring-2 focus:ring-blue-500 rounded">
-        <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" 
-             alt="GitHub" class="h-9 w-9 rounded shadow border border-gray-200 bg-white">
+      <a href="https://github.com/Akash-Chaudhari"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Akash's GitHub"
+          class="transition-all transform hover:scale-110 hover:shadow-lg focus:ring-2 focus:ring-blue-500 rounded">
+        <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+              alt="GitHub" class="h-9 w-9 rounded shadow border border-gray-200 bg-white">
       </a>
     </div>
   </div>
@@ -535,6 +597,24 @@
                 }
             });
         }
+
+        // --- Slideshow Logic ---
+        let slideIndex = 0;
+        function showSlides() {
+            let i;
+            const slides = document.getElementsByClassName("mySlides");
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) {slideIndex = 1}
+            slides[slideIndex-1].style.display = "block";
+            setTimeout(showSlides, 3000); // Change image every 3 seconds
+        }
+
+        // Call showSlides once the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', showSlides);
+
 
         // --- Navigation Functions ---
         const showSection = (sectionToShow) => {
