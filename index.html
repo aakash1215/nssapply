@@ -463,7 +463,7 @@
             <p class="text-gray-600" id="personalized-welcome">Your details have been successfully submitted to the NSS
                 database.</p>
 
-            <a href="https://chat.whatsapp.com/DaXCq89ungjJfYtOXiVG9L" target="_blank"
+            <a id="whatsapp-group-link-success" href="#" target="_blank"
                 class="mt-8 inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg focus:outline-none focus:ring-4 focus:ring-green-300 transition-colors duration-300">
                 Join Our WhatsApp Group
             </a>
@@ -577,7 +577,8 @@
         // --- Set dynamic content ---
         document.querySelector('#registration-form-section img[alt="Payment QR Code"]').src = QR_CODE_IMAGE_URL;
         document.querySelector('#registration-form-section a[href="upi://pay?pa=9545441133@fam&pn=Akash%20Chaudhari&am=10&cu=INR&tn=Support%20E-Cell"]').href = UPI_DEEP_LINK;
-        document.querySelector('#success-message-section a[href="YOUR_WHATSAPP_GROUP_INVITE_LINK"]').href = WHATSAPP_GROUP_LINK;
+        document.getElementById('whatsapp-group-link-success').href = WHATSAPP_GROUP_LINK;
+
 
 
         // --- Image Preview Logic ---
