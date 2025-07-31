@@ -167,10 +167,7 @@
                                         <option value="7">7</option><option value="8">8</option>
                                     </select>
                                 </div>
-                                <div>
-                                    <label for="Enrollment Number" class="block text-gray-700 text-sm font-bold mb-2">Enrollment Number</label>
-                                    <input type="text" id="Enrollment Number" name="Enrollment Number" class="shadow-sm appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-800" required>
-                                </div>
+                                
                                 <div>
                                     <label for="Background" class="block text-gray-700 text-sm font-bold mb-2">Background</label>
                                     <select id="Background" name="Background" class="shadow-sm appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-800" required>
@@ -221,10 +218,26 @@
                                     <input type="file" id="Sign" name="Sign" accept="image/*" class="shadow-sm appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-800" required>
                                     <img id="sign-preview" class="file-upload-preview hidden" src="#" alt="Sign Preview">
                                 </div>
-                                <div>
-                                    <label for="TransactionProof" class="block text-gray-700 text-sm font-bold mb-2">Transaction Proof (Image)</label>
-                                    <input type="file" id="TransactionProof" name="TransactionProof" accept="image/*" class="shadow-sm appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-800" required>
-                                    <img id="transaction-proof-preview" class="file-upload-preview hidden" src="#" alt="Transaction Proof Preview">
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="border-t-2 border-blue-800 pt-4">
+                            <legend class="text-xl font-bold text-blue-900 px-2">Payment Details</legend>
+                            <div class="space-y-4 mt-4 text-center">
+                                <p class="text-gray-700 font-semibold">Scan to Pay:</p>
+                                <div class="flex justify-center">
+                                    <img src="./qr.jpg" alt="Payment QR Code" class="w-60 h-70 border border-gray-300 rounded-lg p-2"/>
+                                </div>
+                                <p class="text-gray-700 font-semibold mt-4">Or Pay via UPI App:</p>
+                                <a href="upi://pay?pa=9545441133@fam&pn=Akash%20Chaudhari&am=10&cu=INR&tn=Support%20E-Cell" class="inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-colors duration-300">
+                                    Pay ₹10 with UPI
+                                </a>
+                                <p class="text-gray-700 mt-6 font-semibold">Upload Payment Screenshot:</p>
+                                <input type="file" id="PaymentScreenshot" name="Payment Screenshot" accept="image/*" class="shadow-sm appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-800" required>
+                                <img id="payment-screenshot-preview" class="file-upload-preview hidden mx-auto" src="#" alt="Payment Screenshot Preview">
+                                <div class="mt-4">
+                                    <label for="TransactionId" class="block text-gray-700 text-sm font-bold mb-2">Transaction ID</label>
+                                    <input type="text" id="TransactionId" name="Transaction ID" class="shadow-sm appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-800" required placeholder="Enter your transaction ID">
                                 </div>
                             </div>
                         </fieldset>
@@ -260,7 +273,11 @@
             </div>
             <h1 class="text-2xl font-bold text-gray-800 mb-2">Registration Successful!</h1>
             <p class="text-gray-600" id="personalized-welcome">Your details have been successfully submitted to the NSS database.</p>
-            <button id="register-another-success" class="mt-8 bg-blue-800 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg focus:outline-none focus:ring-4 focus:ring-red-300 transition-colors duration-300">
+            
+            <a href="YOUR_WHATSAPP_GROUP_INVITE_LINK" target="_blank" class="mt-8 inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg focus:outline-none focus:ring-4 focus:ring-green-300 transition-colors duration-300">
+                Join Our WhatsApp Group
+            </a>
+            <button id="register-another-success" class="mt-4 bg-blue-800 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg focus:outline-none focus:ring-4 focus:ring-red-300 transition-colors duration-300">
                 Register Another Volunteer
             </button>
         </div>
@@ -299,8 +316,11 @@
     <script>
         // *** IMPORTANT: Update these URLs to your backend endpoints and ImgBB API key ***
         const BACKEND_API_URL = 'https://nssform-production.up.railway.app/register';
-        const IMGBB_API_KEY = 'YOUR_IMGBB_API_KEY'; // Replace with your actual ImgBB API key
+        const IMGBB_API_KEY = '2dab781189c7777d4a16eef7dd65c558'; // Replace with your actual ImgBB API key
         const IMGBB_UPLOAD_URL = `https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`;
+        const QR_CODE_IMAGE_URL = './qr.jpg'; 
+        const UPI_DEEP_LINK = 'upi://pay?pa=9545441133@fam&pn=Akash%20Chaudhari&am=10&cu=INR&tn=Support%20E-Cell'; // Example: 'upi://pay?pa=your_upi_id@bank&pn=YourName&mc=0000&tid=123456789&tr=reference&am=1&cu=INR';
+        const WHATSAPP_GROUP_LINK = 'https://chat.whatsapp.com/DaXCq89ungjJfYtOXiVG9L'; // Replace with your WhatsApp group invite link
 
         // --- Element Selections ---
         const form = document.getElementById('registration-form');
@@ -323,8 +343,14 @@
         const photoPreview = document.getElementById('photo-preview');
         const signInput = document.getElementById('Sign');
         const signPreview = document.getElementById('sign-preview');
-        const transactionProofInput = document.getElementById('TransactionProof');
-        const transactionProofPreview = document.getElementById('transaction-proof-preview');
+        const paymentScreenshotInput = document.getElementById('PaymentScreenshot'); // New
+        const paymentScreenshotPreview = document.getElementById('payment-screenshot-preview'); // New
+        const transactionIdInput = document.getElementById('TransactionId'); // New
+
+        // --- Set dynamic content ---
+        document.querySelector('#registration-form-section img[alt="Payment QR Code"]').src = QR_CODE_IMAGE_URL;
+        document.querySelector('#registration-form-section a[href="upi://pay?pa=9545441133@fam&pn=Akash%20Chaudhari&am=10&cu=INR&tn=Support%20E-Cell"]').href = UPI_DEEP_LINK;
+        document.querySelector('#success-message-section a[href="YOUR_WHATSAPP_GROUP_INVITE_LINK"]').href = WHATSAPP_GROUP_LINK;
 
 
         // --- Image Preview Logic ---
@@ -357,16 +383,24 @@
 
         document.getElementById('register-another-success').addEventListener('click', () => {
             form.reset();
-            photoPreview.classList.add('hidden'); // Clear image previews
+            // Clear all image previews
+            photoPreview.classList.add('hidden'); 
+            photoPreview.src = '#';
             signPreview.classList.add('hidden');
-            transactionProofPreview.classList.add('hidden'); // Clear transaction proof preview
+            signPreview.src = '#';
+            paymentScreenshotPreview.classList.add('hidden'); // Clear payment screenshot preview
+            paymentScreenshotPreview.src = '#';
             showSection(formSection);
         });
         document.getElementById('return-to-form-error').addEventListener('click', () => {
             form.reset(); // Clear form on return from error
+            // Clear all image previews
             photoPreview.classList.add('hidden');
+            photoPreview.src = '#';
             signPreview.classList.add('hidden');
-            transactionProofPreview.classList.add('hidden'); // Clear transaction proof preview
+            signPreview.src = '#';
+            paymentScreenshotPreview.classList.add('hidden'); // Clear payment screenshot preview
+            paymentScreenshotPreview.src = '#';
             showSection(formSection);
         });
 
@@ -430,6 +464,7 @@
 
             const mobileNumber = document.getElementById('Mobile Number').value;
             const email = document.getElementById('Email').value;
+            const transactionId = transactionIdInput.value.trim(); // Get transaction ID
 
             if (!/^\d{10}$/.test(mobileNumber)) {
                 showError('Please enter a valid 10-digit mobile number.');
@@ -441,10 +476,17 @@
                 document.getElementById('Email').classList.add('input-error');
                 setLoading(false); return;
             }
+            // Validate Transaction ID
+            if (!transactionId) {
+                showError('Please enter the Transaction ID.');
+                transactionIdInput.classList.add('input-error');
+                setLoading(false); return;
+            }
+
 
             let photoUrl = '';
             let signUrl = '';
-            let transactionProofUrl = '';
+            let paymentScreenshotUrl = ''; // New variable
 
             try {
                 showError("Uploading images...", false);
@@ -462,11 +504,11 @@
                     throw new Error("Signature is required.");
                 }
 
-                // Upload Transaction Proof
-                if (transactionProofInput.files[0]) {
-                    transactionProofUrl = await uploadImageToImgBB(transactionProofInput.files[0]);
+                // Upload Payment Screenshot
+                if (paymentScreenshotInput.files[0]) {
+                    paymentScreenshotUrl = await uploadImageToImgBB(paymentScreenshotInput.files[0]);
                 } else {
-                    throw new Error("Transaction Proof is required.");
+                    throw new Error("Payment Screenshot is required.");
                 }
 
                 // --- Collect data in the specified order for the backend ---
@@ -480,7 +522,6 @@
                     "Year of Admission": document.getElementById("Year of Admission").value,
                     "Department": document.getElementById("Department").value,
                     "Semester": document.getElementById("Semester").value,
-                    "Enrollment Number": document.getElementById("Enrollment Number").value,
                     "Background": document.getElementById("Background").value,
                     "Permanent Address": document.getElementById("Permanent Address").value,
                     "Correspondence Address": document.getElementById("Correspondence Address").value,
@@ -489,7 +530,8 @@
                     "Mobile Number": document.getElementById("Mobile Number").value,
                     "Photo": photoUrl,
                     "Sign": signUrl,
-                    "Transaction Proof": transactionProofUrl // This now sends the ImgBB URL
+                    "Payment Screenshot": paymentScreenshotUrl, // Include new field
+                    "Transaction ID": transactionId // Include new field
                 };
 
                 showError("Submitting form data...", false);
@@ -585,7 +627,7 @@
         // --- Initialize ---
         setupImagePreview(photoInput, photoPreview);
         setupImagePreview(signInput, signPreview);
-        setupImagePreview(transactionProofInput, transactionProofPreview);
+        setupImagePreview(paymentScreenshotInput, paymentScreenshotPreview); // Initialize new preview
     </script>
 </body>
 </html>
