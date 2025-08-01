@@ -248,7 +248,7 @@
                                         <option value="8">8</option>
                                     </select>
                                 </div>
-                        
+
                                 <div>
                                     <label for="Background"
                                         class="block text-gray-700 text-sm font-bold mb-2">Background</label>
@@ -450,32 +450,32 @@
     </div>
 
 <footer class="bg-gradient-to-r from-blue-50 to-gray-100 py-12 shadow-inner mt-12">
-  <div class="max-w-xl mx-auto text-center">
-    <p class="text-3xl font-extrabold tracking-widest text-gray-900 mb-3">
-      Made with <span class="text-red-500 animate-pulse">💻</span> by <span class="text-blue-700">Akash</span>
-    </p>
-    <p class="text-gray-500 italic mb-6">
-      If you encounter any issues<br>please contact: 9545441133
-    </p>
-    <div class="flex justify-center space-x-8 mb-2">
-      <a href="https://www.linkedin.com/in/akashchaudhari007/" 
-         target="_blank" 
-         rel="noopener noreferrer" 
-         aria-label="Akash's LinkedIn"
-         class="transition-all transform hover:scale-110 hover:shadow-lg focus:ring-2 focus:ring-blue-500 rounded">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/480px-LinkedIn_logo_initials.png" 
-             alt="LinkedIn" class="h-9 w-9 rounded shadow border border-gray-200">
-      </a>
-      <a href="https://github.com/Akash-Chaudhari" 
-         target="_blank" 
-         rel="noopener noreferrer"
-         aria-label="Akash's GitHub"
-         class="transition-all transform hover:scale-110 hover:shadow-lg focus:ring-2 focus:ring-blue-500 rounded">
-        <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" 
-             alt="GitHub" class="h-9 w-9 rounded shadow border border-gray-200 bg-white">
-      </a>
+    <div class="max-w-xl mx-auto text-center">
+        <p class="text-3xl font-extrabold tracking-widest text-gray-900 mb-3">
+            Made with <span class="text-red-500 animate-pulse">💻</span> by <span class="text-blue-700">Akash</span>
+        </p>
+        <p class="text-gray-500 italic mb-6">
+            If you encounter any issues<br>please contact: 9545441133
+        </p>
+        <div class="flex justify-center space-x-8 mb-2">
+            <a href="https://www.linkedin.com/in/akashchaudhari007/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                aria-label="Akash's LinkedIn"
+                class="transition-all transform hover:scale-110 hover:shadow-lg focus:ring-2 focus:ring-blue-500 rounded">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/480px-LinkedIn_logo_initials.png" 
+                    alt="LinkedIn" class="h-9 w-9 rounded shadow border border-gray-200">
+            </a>
+            <a href="https://github.com/Akash-Chaudhari" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                aria-label="Akash's GitHub"
+                class="transition-all transform hover:scale-110 hover:shadow-lg focus:ring-2 focus:ring-blue-500 rounded">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" 
+                    alt="GitHub" class="h-9 w-9 rounded shadow border border-gray-200 bg-white">
+            </a>
+        </div>
     </div>
-  </div>
 </footer>
 
     <script>
@@ -511,20 +511,17 @@
         const paymentScreenshotInput = document.getElementById('PaymentScreenshot'); // New
         const paymentScreenshotPreview = document.getElementById('payment-screenshot-preview'); // New
         const transactionIdInput = document.getElementById('TransactionId'); // New
+        // MOVED THIS LINE UP TO ENSURE whatsappGroupLinkEl IS DEFINED WHEN USED
+        const whatsappGroupLinkEl = document.getElementById('whatsapp-group-link'); 
 
         // --- Set dynamic content ---
         document.querySelector('#registration-form-section img[alt="Payment QR Code"]').src = QR_CODE_IMAGE_URL;
-        document.querySelector('#registration-form-section a[href="upi://pay?pa=9545441133@fam&pn=Akash%20Chaudhari&am=10&cu=INR&tn=Support%20E-Cell"]').href = UPI_DEEP_LINK;
-        // --- Element Selections ---
-        const whatsappGroupLinkEl = document.getElementById('whatsapp-group-link'); // ADDED THIS LINE
-
+        document.querySelector('#registration-form-section a[href="upi://pay?pa=kanyavaishnavi@sbi&pn=Akash%20Chaudhari&am=10&cu=INR&tn=Support%20E-Cell"]').href = UPI_DEEP_LINK;
         
-        // MODIFIED LINE HERE: Use the ID to directly set the href
+        // Use the ID to directly set the href
         if (whatsappGroupLinkEl) {
             whatsappGroupLinkEl.href = WHATSAPP_GROUP_LINK;
         }
-
-
 
         // --- Image Preview Logic ---
         function setupImagePreview(inputElement, previewElement) {
